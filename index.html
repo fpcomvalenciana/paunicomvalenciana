@@ -380,9 +380,15 @@ header::before{
       <span class="uni-pill pill-upv" id="pill-upv">UPV · Politècnica de València</span>
       <span class="uni-pill pill-uv" id="pill-uv">UV · València</span>
     </div>
-    <div class="lang-toggle">
-      <button class="lang-btn active" id="btn-es">ES</button>
-      <button class="lang-btn" id="btn-val">VAL</button>
+    <div style="display:flex;align-items:center;gap:.8rem;flex-wrap:wrap">
+      <a href="https://fpcomvalenciana.es" target="_blank" rel="noopener" id="btn-fp-link"
+         style="display:inline-block;background:var(--accent);color:#111;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;padding:.4rem .85rem;border-radius:8px;text-decoration:none;white-space:nowrap;line-height:1.3;text-align:center">
+        <span id="t-fp-link">¿Quieres conocer la Formación<br>Profesional en la Comunitat?</span>
+      </a>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-es">ES</button>
+        <button class="lang-btn" id="btn-val">VAL</button>
+      </div>
     </div>
   </div>
 </header>
@@ -573,7 +579,7 @@ const LANGS = {
     "t-results-title": "Resultados",
     "t-placeholder": "Introduce tu nota y las asignaturas para ver tus opciones",
     "t-leg-ok": "Accesible", "t-leg-close": "Cerca (menos de 1 pto)", "t-leg-far": "Lejos",
-    "t-f-pond-02":"Solo 0,2","t-f-pond-01":"0,1 o más","t-umbral-0":"Solo accesibles (≥ NC)","t-umbral-05":"Hasta 0,5 por debajo","t-umbral-1":"Hasta 1,0 por debajo","t-umbral-2":"Hasta 2,0 por debajo","t-calc-borrar":"Borrar","t-filtros-priv":"🔍 Filtrar universidades privadas","t-f-uni-priv":"Universidad","t-f-uni-priv-all":"Todas","t-borrar-priv":"Borrar filtros","t-priv-empty":"No se han encontrado carreras con esos filtros.",
+    "btn-fp-link":"¿Quieres conocer la Formación Profesional en la Comunitat?","t-f-pond-02":"Solo 0,2","t-f-pond-01":"0,1 o más","t-umbral-0":"Solo accesibles (≥ NC)","t-umbral-05":"Hasta 0,5 por debajo","t-umbral-1":"Hasta 1,0 por debajo","t-umbral-2":"Hasta 2,0 por debajo","t-calc-borrar":"Borrar","t-fp-link":"¿Quieres conocer la Formación Professional en la Comunitat?","t-filtros-priv":"🔍 Filtrar universidades privadas","t-f-uni-priv":"Universidad","t-f-uni-priv-all":"Todas","t-borrar-priv":"Borrar filtros","t-priv-empty":"No se han encontrado carreras con esos filtros.",
     "found": (n) => `<strong>${n}</strong> titulaciones encontradas`,
     "nc-gen": "NC General", "nc-25": "+25 anys", "pond-col": "Ponderac.",
     "sin-corte": "Sin corte", "nd": "—",
@@ -610,7 +616,7 @@ const LANGS = {
     "footer-copy-body":"Informació orientativa, sense caràcter oficial","footer-cook-body":"Este lloc utilitza cookies per millorar l'experiència i, si escau, mostrar anuncis. Pots configurar el teu navegador per rebutjar-les.","footer-lnk-cook":"Més informació →",
     "t-priv-aviso":"Les universitats privades no tenen notes de tall oficials; l'accés depèn dels seus propis criteris.",
     "h-sub":"Notes de tall i ponderacions · Universitats públiques CV · Curs 2025-2026",
-    "t-f-pond-02":"Només 0,2","t-f-pond-01":"0,1 o més","t-umbral-0":"Només accessibles (≥ NT)","t-umbral-05":"Fins a 0,5 per davall","t-umbral-1":"Fins a 1,0 per davall","t-umbral-2":"Fins a 2,0 per davall","t-calc-borrar":"Esborrar","t-filtros-priv":"🔍 Filtrar universitats privades","t-f-uni-priv":"Universitat","t-f-uni-priv-all":"Totes","t-borrar-priv":"Esborrar filtres","t-priv-empty":"No s'han trobat carreres amb aqueixos filtres.","found": (n) => `<strong>${n}</strong> titulacions trobades`,
+    "btn-fp-link":"Vols conéixer la Formació Professional a la Comunitat?","t-f-pond-02":"Només 0,2","t-f-pond-01":"0,1 o més","t-umbral-0":"Només accessibles (≥ NT)","t-umbral-05":"Fins a 0,5 per davall","t-umbral-1":"Fins a 1,0 per davall","t-umbral-2":"Fins a 2,0 per davall","t-calc-borrar":"Esborrar","t-fp-link":"Vols conèixer la Formació Professional a la Comunitat?","t-filtros-priv":"🔍 Filtrar universitats privades","t-f-uni-priv":"Universitat","t-f-uni-priv-all":"Totes","t-borrar-priv":"Esborrar filtres","t-priv-empty":"No s'han trobat carreres amb aqueixos filtres.","found": (n) => `<strong>${n}</strong> titulacions trobades`,
     "nc-gen": "NT General", "nc-25": "+25 anys", "pond-col": "Ponderac.",
     "sin-corte": "Sense tall", "nd": "—",
     "calc-res": (n) => `${n} resultats`,
@@ -625,7 +631,10 @@ function applyLang() {
   const T = LANGS[lang];
   Object.keys(T).forEach(k => {
     const el = document.getElementById(k);
-    if(el && typeof T[k] === 'string') el.textContent = T[k];
+    if(el && typeof T[k] === 'string') {
+      if(k === 'btn-fp-link') el.innerHTML = T[k].replace('Formació Professional', 'Formació<br>Professional').replace('Formación Profesional', 'Formación<br>Profesional');
+      else el.textContent = T[k];
+    }
   });
   document.getElementById('search-input').placeholder = lang==='es'? 'Ej: Medicina, Derecho…':'Ex: Medicina, Dret…';
   applyFilters();
